@@ -1,0 +1,92 @@
+{
+  "1_data": {
+    "passed": true,
+    "train_hash": "8696565fd2a80775efee9574463c81877a23cbf51314a72e5919c81936036a3c",
+    "batch_hash": "94c1c5aeac37d19d620b0698f7b65dcc792e2dc2196d4e68ced356921359318e",
+    "train_rows": 4000,
+    "batch_rows": 1500,
+    "batches_breakdown": {
+      "1": 500,
+      "2": 500,
+      "3": 500
+    },
+    "id_in_features": false,
+    "batch_in_features": false
+  },
+  "2_task1": {
+    "passed": true,
+    "design_note_exists": true,
+    "architecture_diagram_exists": true,
+    "lifecycle_mapping_exists": true
+  },
+  "3_task2": {
+    "passed": true,
+    "config_exists": true,
+    "pydantic_validated": true
+  },
+  "4_task3": {
+    "passed": true,
+    "stages_rerunnable": true,
+    "history_file_exists": true,
+    "prefect_flow_exists": true
+  },
+  "5_task4": {
+    "passed": true,
+    "bad_data_gate_rejected": true,
+    "bad_data_errors_count": 10,
+    "bad_model_gate_rejected": true,
+    "bad_model_reasons_count": 5,
+    "active_production_version": "4",
+    "api_serving_healthy": true
+  },
+  "6_task5": {
+    "passed": true,
+    "model_name": "HousePricePredictor",
+    "stage": "Production",
+    "version": 4,
+    "run_id": "c16cc69234b548b886f1388788896bb1",
+    "git_commit": "c5f97caba8ebaa20dd461655e76233ee064476a5",
+    "data_hash": "8c0d88cd389764a20b48dc9ee10f0042cc3f133ebde2bd22b5aa77067bbac758",
+    "metrics": {
+      "rmse": 7.744437050021391,
+      "r2": 0.8741447797249844,
+      "mae": 5.903253803104859,
+      "mape": 0.10519349926375748
+    }
+  },
+  "7_task6": {
+    "passed": true,
+    "ci_workflow_exists": true,
+    "cd_workflow_exists": true,
+    "dockerfile_exists": true,
+    "rollback_script_exists": true
+  },
+  "8_task7": {
+    "passed": true,
+    "p95_latency_ms": 15.8,
+    "throughput_req_per_sec": 85.2,
+    "batch_1_status": "HEALTHY",
+    "batch_1_rmse": 7.23,
+    "batch_2_status": "CRITICAL",
+    "batch_2_rmse": 9.23,
+    "batch_2_degradation": 19.18,
+    "batch_3_status": "CRITICAL",
+    "batch_3_rmse": 16.37,
+    "batch_3_degradation": 111.32,
+    "batch_3_area_psi": 0.3357
+  },
+  "9_task8": {
+    "passed": true,
+    "demo_script_exists": true
+  },
+  "10_tests": {
+    "passed": true,
+    "stdout": ".....................                                                    [100%]\n============================== warnings summary ===============================\n..\\..\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\site-packages\\fastapi\\testclient.py:1\n  C:\\Users\\JAYDEN\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\ntests/test_api.py: 20 warnings\n  C:\\Users\\JAYDEN\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\site-packages\\joblib\\numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.\n  As an alternative, you can create a new view using np.reshape (with copy=False if needed).\n    array.shape = self.shape\n\ntests/test_model_gate.py::test_model_gate_passes_for_quality_model\ntests/test_model_gate.py::test_model_gate_rejects_low_r2\ntests/test_model_gate.py::test_model_gate_rejects_excessive_rmse\ntests/test_pipeline.py::test_individual_stages_execute_independently\n  C:\\Users\\JAYDEN\\Downloads\\mlops\\src\\registry\\mlflow_manager.py:117: FutureWarning: ``mlflow.tracking.client.MlflowClient.get_latest_versions`` is deprecated since 2.9.0. Model registry stages will be removed in a future major release. To learn more about the deprecation of model registry stages, see our migration guide here: https://mlflow.org/docs/latest/model-registry.html#migrating-from-stages\n    latest_versions = self.client.get_latest_versions(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n21 passed, 25 warnings in 4.42s",
+    "exit_code": 0
+  },
+  "11_documentation": {
+    "passed": true,
+    "missing_docs": [],
+    "total_docs_verified": 11
+  }
+}
