@@ -287,6 +287,7 @@ All formal project briefs and deliverable documents are available in the [`docs/
 8. **[Drift Monitoring & Telemetry Report (Task 7)](docs/monitoring_report.md):** In-depth analysis of Batches 1, 2, and 3 with alert thresholds and playbook.
 9. **[Final Demonstration Script (Task 8)](docs/demonstration_script.md):** 5–10 minute live presentation script with partner speaking allocations.
 10. **[Engineering Reflection Memo (Task 8)](docs/reflection.md):** One-page reflection on what we would improve with more time.
+11. **[Generative AI Disclosure](docs/ai_disclosure.md):** Formal disclosure of GenAI assistance, bounded scope, and verification of academic integrity.
 
 ---
 
