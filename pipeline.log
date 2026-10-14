@@ -222,3 +222,15 @@
 [2026-10-14 06:05:51] [INFO] [orchestrator:run_full_pipeline:169] - ================================================================================
 [2026-10-14 06:05:51] [INFO] [orchestrator:run_full_pipeline:170] - END-TO-END PIPELINE COMPLETED SUCCESSFULLY IN 32.299s
 [2026-10-14 06:05:51] [INFO] [orchestrator:run_full_pipeline:171] - ================================================================================
+[2026-10-14 06:06:57] [INFO] [deploy:register_and_deploy_model:47] - Starting Model Registration & Deployment stage...
+[2026-10-14 06:06:57] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-14 06:06:57] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.8864 (Required >= 0.8)
+[2026-10-14 06:06:57] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 7.52 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-14 06:06:57] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  5.50 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-14 06:06:57] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 9.77% (Required <= 20.00%)
+[2026-10-14 06:06:57] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v2) metrics: RMSE=7.74, R²=0.8741
+[2026-10-14 06:06:57] [INFO] [model_gate:evaluate_model_gate:106] - MODEL GATE PASSED: Candidate meets all quality and competitive thresholds.
+[2026-10-14 06:07:09] [INFO] [mlflow_manager:register_and_promote_model:78] - Registering model from runs:/1356479766a444deb2c9bdf978d22fca/model into registry as 'HousePricePredictor'...
+[2026-10-14 06:07:09] [INFO] [mlflow_manager:register_and_promote_model:86] - Registered model 'HousePricePredictor' Version 3
+[2026-10-14 06:07:09] [INFO] [mlflow_manager:register_and_promote_model:96] - Model 'HousePricePredictor' Version 3 transitioned to stage: Production
+[2026-10-14 06:07:09] [INFO] [deploy:register_and_deploy_model:138] - MODEL DEPLOYMENT SUCCESSFUL. Active serving model is now Version 3.
