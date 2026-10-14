@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 650" width="1050" height="650" style="background-color: #0f172a; font-family: 'Segoe UI', Inter, -apple-system, sans-serif;">
+  <defs>
+    <linearGradient id="gradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="gradBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="gradGate" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </linearGradient>
+    <linearGradient id="gradProd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="525" y="45" font-size="24" font-weight="bold" fill="#f8fafc" text-anchor="middle">MLOps Project 4 Capstone: End-to-End Automated Pipeline Architecture</text>
+  <text x="525" y="70" font-size="14" fill="#94a3b8" text-anchor="middle">Automated Lifecycle: Raw Listings Data → Validation Gates → MLflow Registry → Containerized Serving → Drift Monitoring</text>
+
+  <!-- 1. DATA INGESTION -->
+  <g transform="translate(40, 110)" filter="url(#shadow)">
+    <rect width="180" height="110" rx="8" fill="url(#gradBox)" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="180" height="30" rx="8" fill="#1e3a8a"/>
+    <text x="90" y="20" font-size="13" font-weight="bold" fill="#93c5fd" text-anchor="middle">1. Data Ingestion</text>
+    <text x="15" y="55" font-size="11" fill="#cbd5e1">• capstone_train.csv (4k)</text>
+    <text x="15" y="75" font-size="11" fill="#cbd5e1">• SHA-256 Checksums</text>
+    <text x="15" y="95" font-size="11" fill="#cbd5e1">• 70/15/15 Stratified Split</text>
+  </g>
+
+  <!-- ARROW 1 -->
+  <path d="M 220 165 L 260 165" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <polygon points="260,165 252,160 252,170" fill="#3b82f6"/>
+
+  <!-- 2. DATA GATE (VALIDATION) -->
+  <g transform="translate(265, 110)" filter="url(#shadow)">
+    <rect width="180" height="110" rx="8" fill="url(#gradBox)" stroke="#ef4444" stroke-width="2"/>
+    <rect width="180" height="30" rx="8" fill="url(#gradGate)"/>
+    <text x="90" y="20" font-size="13" font-weight="bold" fill="#fef2f2" text-anchor="middle">2. Data Gate (Gate 1)</text>
+    <text x="15" y="55" font-size="11" fill="#fca5a5">• Schema &amp; Type Check</text>
+    <text x="15" y="75" font-size="11" fill="#fca5a5">• Max Null Limit (&lt;15%)</text>
+    <text x="15" y="95" font-size="11" fill="#fca5a5">• Numerical Ranges</text>
+  </g>
+
+  <!-- ARROW 2 -->
+  <path d="M 445 165 L 485 165" stroke="#3b82f6" stroke-width="2.5"/>
+  <polygon points="485,165 477,160 477,170" fill="#3b82f6"/>
+
+  <!-- 3. FEATURE ENGINEERING -->
+  <g transform="translate(490, 110)" filter="url(#shadow)">
+    <rect width="180" height="110" rx="8" fill="url(#gradBox)" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="180" height="30" rx="8" fill="#1e3a8a"/>
+    <text x="90" y="20" font-size="13" font-weight="bold" fill="#93c5fd" text-anchor="middle">3. Feature Engineering</text>
+    <text x="15" y="55" font-size="11" fill="#cbd5e1">• Area/Room, Age Factor</text>
+    <text x="15" y="75" font-size="11" fill="#cbd5e1">• Median &amp; Mode Imputation</text>
+    <text x="15" y="95" font-size="11" fill="#cbd5e1">• Robust Scaling &amp; One-Hot</text>
+  </g>
+
+  <!-- ARROW 3 -->
+  <path d="M 670 165 L 710 165" stroke="#3b82f6" stroke-width="2.5"/>
+  <polygon points="710,165 702,160 702,170" fill="#3b82f6"/>
+
+  <!-- 4. MODEL TRAINING & CV -->
+  <g transform="translate(715, 110)" filter="url(#shadow)">
+    <rect width="195" height="110" rx="8" fill="url(#gradBox)" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="195" height="30" rx="8" fill="#1e3a8a"/>
+    <text x="97" y="20" font-size="13" font-weight="bold" fill="#93c5fd" text-anchor="middle">4. Training &amp; Tuning</text>
+    <text x="15" y="55" font-size="11" fill="#cbd5e1">• Ridge, RF, GBDT, LightGBM</text>
+    <text x="15" y="75" font-size="11" fill="#cbd5e1">• 5-Fold Stratified CV</text>
+    <text x="15" y="95" font-size="11" fill="#cbd5e1">• MLflow Run Tracking</text>
+  </g>
+
+  <!-- DOWN CONNECTOR FROM 4 TO 5 -->
+  <path d="M 812 220 L 812 265 L 355 265 L 355 310" stroke="#3b82f6" stroke-width="2.5" fill="none"/>
+  <polygon points="355,310 350,302 360,302" fill="#3b82f6"/>
+
+  <!-- 5. MODEL VALIDATION GATE (GATE 2) -->
+  <g transform="translate(265, 315)" filter="url(#shadow)">
+    <rect width="180" height="120" rx="8" fill="url(#gradBox)" stroke="#ef4444" stroke-width="2"/>
+    <rect width="180" height="30" rx="8" fill="url(#gradGate)"/>
+    <text x="90" y="20" font-size="13" font-weight="bold" fill="#fef2f2" text-anchor="middle">5. Model Gate (Gate 2)</text>
+    <text x="15" y="55" font-size="11" fill="#fca5a5">• Min R² &gt;= 0.80</text>
+    <text x="15" y="75" font-size="11" fill="#fca5a5">• Max RMSE &lt;= 12.0 L</text>
+    <text x="15" y="95" font-size="11" fill="#fca5a5">• Challenger vs Champion</text>
+    <text x="15" y="115" font-size="10" fill="#fecaca" font-style="italic">Safe Failure: Keep Old Model</text>
+  </g>
+
+  <!-- ARROW 5 -->
+  <path d="M 445 375 L 485 375" stroke="#3b82f6" stroke-width="2.5"/>
+  <polygon points="485,375 477,370 477,380" fill="#3b82f6"/>
+
+  <!-- 6. MLFLOW REGISTRY & DEPLOY -->
+  <g transform="translate(490, 315)" filter="url(#shadow)">
+    <rect width="180" height="120" rx="8" fill="url(#gradBox)" stroke="#10b981" stroke-width="2"/>
+    <rect width="180" height="30" rx="8" fill="url(#gradProd)"/>
+    <text x="90" y="20" font-size="13" font-weight="bold" fill="#ecfdf5" text-anchor="middle">6. Model Registry</text>
+    <text x="15" y="55" font-size="11" fill="#a7f3d0">• MLflow Model Registry</text>
+    <text x="15" y="75" font-size="11" fill="#a7f3d0">• Stage: Production</text>
+    <text x="15" y="95" font-size="11" fill="#a7f3d0">• Full Lineage Recorded</text>
+    <text x="15" y="115" font-size="11" fill="#a7f3d0">• Atomic Artifact Swap</text>
+  </g>
+
+  <!-- ARROW 6 -->
+  <path d="M 670 375 L 710 375" stroke="#3b82f6" stroke-width="2.5"/>
+  <polygon points="710,375 702,370 702,380" fill="#3b82f6"/>
+
+  <!-- 7. FASTAPI CONTAINER SERVING -->
+  <g transform="translate(715, 315)" filter="url(#shadow)">
+    <rect width="195" height="120" rx="8" fill="url(#gradBox)" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="195" height="30" rx="8" fill="#1e3a8a"/>
+    <text x="97" y="20" font-size="13" font-weight="bold" fill="#93c5fd" text-anchor="middle">7. Serving API (FastAPI)</text>
+    <text x="15" y="55" font-size="11" fill="#cbd5e1">• POST /predict (&lt;50ms)</text>
+    <text x="15" y="75" font-size="11" fill="#cbd5e1">• POST /batch-predict</text>
+    <text x="15" y="95" font-size="11" fill="#cbd5e1">• GET /health &amp; /lineage</text>
+    <text x="15" y="115" font-size="11" fill="#cbd5e1">• GET /metrics (Prometheus)</text>
+  </g>
+
+  <!-- DOWN CONNECTOR TO MONITORING -->
+  <path d="M 812 435 L 812 475 L 580 475 L 580 500" stroke="#3b82f6" stroke-width="2.5" fill="none"/>
+  <polygon points="580,500 575,492 585,492" fill="#3b82f6"/>
+
+  <!-- 8. MONITORING & DRIFT DETECTOR -->
+  <g transform="translate(180, 505)" filter="url(#shadow)">
+    <rect width="800" height="110" rx="8" fill="url(#gradBox)" stroke="#f59e0b" stroke-width="2"/>
+    <rect width="800" height="30" rx="8" fill="#b45309"/>
+    <text x="400" y="20" font-size="13" font-weight="bold" fill="#fef3c7" text-anchor="middle">8. Telemetry &amp; Operational Drift Monitoring (Prometheus + PSI/KS + Streamlit)</text>
+    <text x="25" y="55" font-size="11" fill="#fde68a">• Ingests Incoming Batches 1, 2, 3 (500 listings each)</text>
+    <text x="25" y="75" font-size="11" fill="#fde68a">• Data Drift: Population Stability Index (PSI) &amp; Kolmogorov-Smirnov Test</text>
+    <text x="25" y="95" font-size="11" fill="#fde68a">• Performance Drift: Real-world RMSE degradation tracking against ground-truth prices</text>
+    <text x="450" y="55" font-size="11" fill="#fde68a">• Batch 1: Stable (Healthy)</text>
+    <text x="450" y="75" font-size="11" fill="#fde68a">• Batch 2: Degraded (+19.2% RMSE) -> Warning</text>
+    <text x="450" y="95" font-size="11" fill="#fde68a">• Batch 3: Catastrophic Shift (Area PSI=0.336, Zone=Central x2, RMSE +111%) -> Alert</text>
+  </g>
+
+</svg>

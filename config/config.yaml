@@ -1,0 +1,162 @@
+# ==============================================================================
+# MLOps Project 4 - Capstone Pipeline Configuration (Single Source of Truth)
+# ==============================================================================
+
+project:
+  name: "property-price-predictor"
+  version: "1.0.0"
+  author: "MLOps Capstone Team"
+  description: "End-to-End Automated Pipeline for Real-Estate Price Prediction in Lakhs"
+  random_seed: 42
+
+paths:
+  raw_train_data: "data/raw/capstone_house_prices_train.csv"
+  raw_incoming_batches: "data/raw/capstone_incoming_batches.csv"
+  processed_dir: "data/processed"
+  train_data: "data/processed/train.csv"
+  val_data: "data/processed/val.csv"
+  test_data: "data/processed/test.csv"
+  batches_dir: "data/batches"
+  model_dir: "models"
+  active_model_path: "models/active_model.joblib"
+  active_preprocessor_path: "models/preprocessor.joblib"
+  reports_dir: "reports"
+  figures_dir: "reports/figures"
+  drift_dir: "reports/drift"
+
+features:
+  target: "Price_Lakhs"
+  id_columns:
+    - "House_ID"
+  metadata_columns:
+    - "Batch"
+  numerical:
+    - "Area_sqft"
+    - "Bedrooms"
+    - "Bathrooms"
+    - "Age_Years"
+    - "Distance_to_Center_km"
+    - "Neighborhood_Score"
+    - "Has_Parking"
+  categorical:
+    - "Property_Condition"
+    - "City_Zone"
+  engineered:
+    - "Area_Per_Room"
+    - "Bath_To_Bed_Ratio"
+    - "Overall_Desirability"
+
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  stratify_by: "City_Zone"
+
+data_gate:
+  max_null_pct_per_column: 0.15
+  max_null_pct_overall: 0.10
+  allowed_property_conditions:
+    - "Poor"
+    - "Fair"
+    - "Good"
+    - "Excellent"
+  allowed_city_zones:
+    - "North"
+    - "South"
+    - "East"
+    - "West"
+    - "Central"
+  numerical_ranges:
+    Area_sqft:
+      min: 100.0
+      max: 10000.0
+    Bedrooms:
+      min: 1
+      max: 20
+    Bathrooms:
+      min: 1
+      max: 20
+    Age_Years:
+      min: 0.0
+      max: 150.0
+    Distance_to_Center_km:
+      min: 0.0
+      max: 100.0
+    Neighborhood_Score:
+      min: 1.0
+      max: 10.0
+    Has_Parking:
+      min: 0
+      max: 1
+    Price_Lakhs:
+      min: 1.0
+      max: 2000.0
+
+preprocessing:
+  numerical_imputer: "median"
+  categorical_imputer: "most_frequent"
+  scaler: "robust"
+  condition_order:
+    - "Poor"
+    - "Fair"
+    - "Good"
+    - "Excellent"
+
+training:
+  cv_folds: 5
+  models_to_evaluate:
+    - "ridge"
+    - "random_forest"
+    - "gradient_boosting"
+    - "lightgbm"
+  hyperparameters:
+    ridge:
+      alpha: 10.0
+    random_forest:
+      n_estimators: 150
+      max_depth: 12
+      min_samples_split: 5
+      random_state: 42
+      n_jobs: -1
+    gradient_boosting:
+      n_estimators: 150
+      learning_rate: 0.08
+      max_depth: 5
+      random_state: 42
+    lightgbm:
+      n_estimators: 150
+      learning_rate: 0.07
+      max_depth: 6
+      num_leaves: 31
+      random_state: 42
+      verbose: -1
+
+model_gate:
+  min_r2_score: 0.80
+  max_rmse_lakhs: 12.0
+  max_mae_lakhs: 8.5
+  max_mape: 0.20
+  challenger_must_beat_champion: true
+  min_champion_improvement_pct: 0.0
+
+mlflow:
+  tracking_uri: "sqlite:///mlflow.db"
+  experiment_name: "HousePricePrediction_Capstone"
+  model_name: "HousePricePredictor"
+  registered_stage: "Production"
+
+serving:
+  host: "0.0.0.0"
+  port: 8000
+  title: "Property Asking Price Prediction API"
+  version: "1.0.0"
+  latency_p95_threshold_ms: 50.0
+  latency_p99_threshold_ms: 100.0
+
+monitoring:
+  drift_significance_level: 0.05
+  psi_alert_threshold: 0.25
+  psi_warning_threshold: 0.10
+  ks_p_value_threshold: 0.01
+  max_performance_drop_pct: 15.0
+  batch_column: "Batch"

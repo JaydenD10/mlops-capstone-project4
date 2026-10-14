@@ -1,0 +1,23 @@
+artifact_path: file:C:/Users/JAYDEN/Downloads/mlops/mlruns/1/models/m-0018b1909fac4d1e8ee8e5247e62dd40/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.14.5
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+mlflow_version: 3.17.1
+model_id: m-0018b1909fac4d1e8ee8e5247e62dd40
+model_size_bytes: 6459
+model_uuid: m-0018b1909fac4d1e8ee8e5247e62dd40
+prompts: null
+run_id: eed82011f5374493b4e95cb0b29d456b
+utc_time_created: '2026-10-14 00:21:16.740476'

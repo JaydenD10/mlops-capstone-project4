@@ -1,0 +1,30 @@
+{
+  "raw_train_hash": "8696565fd2a80775efee9574463c81877a23cbf51314a72e5919c81936036a3c",
+  "raw_batches_hash": "94c1c5aeac37d19d620b0698f7b65dcc792e2dc2196d4e68ced356921359318e",
+  "train_rows": 2800,
+  "val_rows": 600,
+  "test_rows": 600,
+  "train_hash": "8c0d88cd389764a20b48dc9ee10f0042cc3f133ebde2bd22b5aa77067bbac758",
+  "val_hash": "5aa38e78e25898b22ffd2aa78e782cdd30cb4c7141349c3d8efdc69b537747fb",
+  "test_hash": "275540ef559627991ea8c6c9eeb49f2d7242835115a0d27d87c324087f935092",
+  "batches": {
+    "batch_1": {
+      "path": "data\\batches\\batch_1.csv",
+      "rows": 500,
+      "hash": "d8ad43e60f490e6673107b4ff88091ff8dca9aa0b4e8467cee26ca8d2ce86753",
+      "mean_price": 61.955619999999996
+    },
+    "batch_2": {
+      "path": "data\\batches\\batch_2.csv",
+      "rows": 500,
+      "hash": "92abaf803f6f77c20ea70c07d3a0f9ec64addd445888d5f18ea3674e5ad184f4",
+      "mean_price": 63.82384
+    },
+    "batch_3": {
+      "path": "data\\batches\\batch_3.csv",
+      "rows": 500,
+      "hash": "3a8c164ba6f1bb2066643c59e4e6f6fc496d383d9999c44409d703e6488e98bd",
+      "mean_price": 69.6105
+    }
+  }
+}

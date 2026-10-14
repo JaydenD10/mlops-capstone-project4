@@ -1,0 +1,67 @@
+name: MLOps CD & Image Release Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  test-and-release:
+    name: Verify, Build Image, Tag & Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run Full Pytest Suite
+        run: |
+          pytest -v
+
+      - name: Execute Full End-to-End Orchestrated Pipeline
+        run: |
+          python scripts/run_pipeline.py
+
+      - name: Set Image Tags
+        id: meta
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV
+          echo "TIMESTAMP=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Deployable Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: |
+            house-price-api:${{ env.IMAGE_TAG }}
+            house-price-api:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Validate Container Healthcheck
+        run: |
+          docker run -d --name test-api -p 8000:8000 house-price-api:${{ env.IMAGE_TAG }}
+          sleep 5
+          docker ps
+          curl -f http://localhost:8000/health || exit 1
+          docker stop test-api
