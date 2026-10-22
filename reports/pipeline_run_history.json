@@ -74,5 +74,81 @@
         }
       }
     ]
+  },
+  {
+    "status": "SUCCESS",
+    "total_duration_seconds": 30.417,
+    "completed_at": "2026-10-21T19:18:27.762311",
+    "stages": [
+      {
+        "stage": "ingest",
+        "duration_seconds": 0.208,
+        "success": true,
+        "timestamp": "2026-10-21T19:17:57.542081",
+        "details": {
+          "train_rows": 2800
+        }
+      },
+      {
+        "stage": "validate_data",
+        "duration_seconds": 0.018,
+        "success": true,
+        "timestamp": "2026-10-21T19:17:57.560552",
+        "details": {
+          "records": 2800
+        }
+      },
+      {
+        "stage": "build_features",
+        "duration_seconds": 0.033,
+        "success": true,
+        "timestamp": "2026-10-21T19:17:57.593300",
+        "details": {
+          "feature_count": 16
+        }
+      },
+      {
+        "stage": "train",
+        "duration_seconds": 21.297,
+        "success": true,
+        "timestamp": "2026-10-21T19:18:18.890372",
+        "details": {
+          "best_model": "ridge",
+          "val_rmse": 7.519096768365118,
+          "test_r2": 0.8741447797249844
+        }
+      },
+      {
+        "stage": "validate_model",
+        "duration_seconds": 0.069,
+        "success": true,
+        "timestamp": "2026-10-21T19:18:18.959111",
+        "details": {
+          "passed": true
+        }
+      },
+      {
+        "stage": "deploy",
+        "duration_seconds": 8.655,
+        "success": true,
+        "timestamp": "2026-10-21T19:18:27.614094",
+        "details": {
+          "version": "6"
+        }
+      },
+      {
+        "stage": "monitor",
+        "duration_seconds": 0.136,
+        "success": true,
+        "timestamp": "2026-10-21T19:18:27.750149",
+        "details": {
+          "batch_statuses": {
+            "batch_1": "HEALTHY",
+            "batch_2": "CRITICAL",
+            "batch_3": "CRITICAL"
+          }
+        }
+      }
+    ]
   }
 ]

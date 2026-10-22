@@ -58,3 +58,6 @@ reports/drift/*.html
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Local Scratch
+scratch/

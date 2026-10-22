@@ -234,3 +234,373 @@
 [2026-10-14 06:07:09] [INFO] [mlflow_manager:register_and_promote_model:86] - Registered model 'HousePricePredictor' Version 3
 [2026-10-14 06:07:09] [INFO] [mlflow_manager:register_and_promote_model:96] - Model 'HousePricePredictor' Version 3 transitioned to stage: Production
 [2026-10-14 06:07:09] [INFO] [deploy:register_and_deploy_model:138] - MODEL DEPLOYMENT SUCCESSFUL. Active serving model is now Version 3.
+[2026-10-14 06:15:15] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'ingest'...
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:39] - Starting Data Ingestion stage...
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:63] - Loaded raw training dataset: data\raw\capstone_house_prices_train.csv (SHA-256: 8696565fd2a8...)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:64] - Loaded raw incoming batches: data\raw\capstone_incoming_batches.csv (SHA-256: 94c1c5aeac37...)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:69] - Raw train shape: (4000, 11), Raw batches shape: (1500, 12)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:113] - Saved Train set: data\processed\train.csv (2800 rows)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:114] - Saved Val set:   data\processed\val.csv (600 rows)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:115] - Saved Test set:  data\processed\test.csv (600 rows)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 1: data\batches\batch_1.csv (500 rows)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 2: data\batches\batch_2.csv (500 rows)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 3: data\batches\batch_3.csv (500 rows)
+[2026-10-14 06:15:15] [INFO] [ingestion:ingest_data:149] - Data Ingestion stage completed successfully.
+[2026-10-14 06:15:15] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'validate_data'...
+[2026-10-14 06:15:15] [INFO] [data_validation:validate_data_gate:151] - Running Data Gate Validation on: data\processed\train.csv
+[2026-10-14 06:15:15] [INFO] [data_validation:validate_data_gate:156] - DATA GATE PASSED: 2800 records verified successfully.
+[2026-10-14 06:15:15] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'build_features'...
+[2026-10-14 06:15:15] [INFO] [preprocessor:fit_and_save_preprocessor:126] - Fitting preprocessor on 2800 samples across 9 features...
+[2026-10-14 06:15:15] [INFO] [preprocessor:fit_and_save_preprocessor:133] - Fitted preprocessor successfully saved to: models\preprocessor.joblib (Output shape: (2800, 16))
+[2026-10-14 06:15:16] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-14 06:15:16] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.3500 (Required >= 0.8)
+[2026-10-14 06:15:16] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 22.00 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-14 06:15:16] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  17.00 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-14 06:15:16] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 45.00% (Required <= 20.00%)
+[2026-10-14 06:15:16] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v4) metrics: RMSE=7.74, R²=0.8741
+[2026-10-14 06:15:16] [ERROR] [model_gate:evaluate_model_gate:108] - MODEL GATE FAILED: 5 threshold violation(s):
+[2026-10-14 06:15:16] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate R² (0.3500) is below minimum quality threshold 0.8000
+[2026-10-14 06:15:16] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate RMSE (22.00 Lakhs) exceeds maximum allowed threshold 12.00 Lakhs
+[2026-10-14 06:15:16] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAE (17.00 Lakhs) exceeds maximum allowed threshold 8.50 Lakhs
+[2026-10-14 06:15:16] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAPE (45.00%) exceeds maximum allowed threshold 20.00%
+[2026-10-14 06:15:16] [ERROR] [model_gate:evaluate_model_gate:110] -   - Challenger RMSE (22.00) failed to beat Champion v4 RMSE (7.74)
+[2026-10-14 06:15:16] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 06:15:16] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 06:15:16] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 06:15:16] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 06:15:16] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 06:15:16] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 06:15:16] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 06:15:17] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:243] - Starting Operational Batch Monitoring & Drift Pipeline...
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:259] - Processing incoming batches: [np.int64(1), np.int64(2), np.int64(3)]
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 1 Evaluation: [HEALTHY] - Action: NO_ACTION_REQUIRED: Distributions and model accuracy match historical baseline.
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 2 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 06:15:17] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 19.2% exceeds threshold 15.0%
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 3 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 06:15:17] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 111.3% exceeds threshold 15.0%
+[2026-10-14 06:15:17] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Critical data drift on 'Area_sqft' (PSI = 0.336 >= 0.25)
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bedrooms' (PSI = 0.197)
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bathrooms' (PSI = 0.110)
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'City_Zone' (PSI = 0.206)
+[2026-10-14 06:15:17] [INFO] [drift_monitor:run_monitoring_pipeline:291] - All monitoring reports successfully saved to: C:\Users\JAYDEN\Downloads\mlops\reports\drift
+[2026-10-14 06:16:06] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 06:16:06] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 06:16:06] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 06:16:06] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 06:16:30] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'ingest'...
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:39] - Starting Data Ingestion stage...
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:63] - Loaded raw training dataset: data\raw\capstone_house_prices_train.csv (SHA-256: 8696565fd2a8...)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:64] - Loaded raw incoming batches: data\raw\capstone_incoming_batches.csv (SHA-256: 94c1c5aeac37...)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:69] - Raw train shape: (4000, 11), Raw batches shape: (1500, 12)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:113] - Saved Train set: data\processed\train.csv (2800 rows)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:114] - Saved Val set:   data\processed\val.csv (600 rows)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:115] - Saved Test set:  data\processed\test.csv (600 rows)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 1: data\batches\batch_1.csv (500 rows)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 2: data\batches\batch_2.csv (500 rows)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 3: data\batches\batch_3.csv (500 rows)
+[2026-10-14 06:16:30] [INFO] [ingestion:ingest_data:149] - Data Ingestion stage completed successfully.
+[2026-10-14 06:16:30] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'validate_data'...
+[2026-10-14 06:16:30] [INFO] [data_validation:validate_data_gate:151] - Running Data Gate Validation on: data\processed\train.csv
+[2026-10-14 06:16:30] [INFO] [data_validation:validate_data_gate:156] - DATA GATE PASSED: 2800 records verified successfully.
+[2026-10-14 06:16:30] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'build_features'...
+[2026-10-14 06:16:30] [INFO] [preprocessor:fit_and_save_preprocessor:126] - Fitting preprocessor on 2800 samples across 9 features...
+[2026-10-14 06:16:30] [INFO] [preprocessor:fit_and_save_preprocessor:133] - Fitted preprocessor successfully saved to: models\preprocessor.joblib (Output shape: (2800, 16))
+[2026-10-14 06:16:31] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-14 06:16:31] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.3500 (Required >= 0.8)
+[2026-10-14 06:16:31] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 22.00 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-14 06:16:31] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  17.00 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-14 06:16:31] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 45.00% (Required <= 20.00%)
+[2026-10-14 06:16:31] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v4) metrics: RMSE=7.74, R²=0.8741
+[2026-10-14 06:16:31] [ERROR] [model_gate:evaluate_model_gate:108] - MODEL GATE FAILED: 5 threshold violation(s):
+[2026-10-14 06:16:31] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate R² (0.3500) is below minimum quality threshold 0.8000
+[2026-10-14 06:16:31] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate RMSE (22.00 Lakhs) exceeds maximum allowed threshold 12.00 Lakhs
+[2026-10-14 06:16:31] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAE (17.00 Lakhs) exceeds maximum allowed threshold 8.50 Lakhs
+[2026-10-14 06:16:31] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAPE (45.00%) exceeds maximum allowed threshold 20.00%
+[2026-10-14 06:16:31] [ERROR] [model_gate:evaluate_model_gate:110] -   - Challenger RMSE (22.00) failed to beat Champion v4 RMSE (7.74)
+[2026-10-14 06:16:31] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 06:16:31] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 06:16:31] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 06:16:31] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 06:16:31] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 06:16:31] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 06:16:31] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 06:16:32] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:243] - Starting Operational Batch Monitoring & Drift Pipeline...
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:259] - Processing incoming batches: [np.int64(1), np.int64(2), np.int64(3)]
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 1 Evaluation: [HEALTHY] - Action: NO_ACTION_REQUIRED: Distributions and model accuracy match historical baseline.
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 2 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 06:16:32] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 19.2% exceeds threshold 15.0%
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 3 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 06:16:32] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 111.3% exceeds threshold 15.0%
+[2026-10-14 06:16:32] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Critical data drift on 'Area_sqft' (PSI = 0.336 >= 0.25)
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bedrooms' (PSI = 0.197)
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bathrooms' (PSI = 0.110)
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'City_Zone' (PSI = 0.206)
+[2026-10-14 06:16:32] [INFO] [drift_monitor:run_monitoring_pipeline:291] - All monitoring reports successfully saved to: C:\Users\JAYDEN\Downloads\mlops\reports\drift
+[2026-10-14 06:17:02] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'ingest'...
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:39] - Starting Data Ingestion stage...
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:63] - Loaded raw training dataset: data\raw\capstone_house_prices_train.csv (SHA-256: 8696565fd2a8...)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:64] - Loaded raw incoming batches: data\raw\capstone_incoming_batches.csv (SHA-256: 94c1c5aeac37...)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:69] - Raw train shape: (4000, 11), Raw batches shape: (1500, 12)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:113] - Saved Train set: data\processed\train.csv (2800 rows)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:114] - Saved Val set:   data\processed\val.csv (600 rows)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:115] - Saved Test set:  data\processed\test.csv (600 rows)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 1: data\batches\batch_1.csv (500 rows)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 2: data\batches\batch_2.csv (500 rows)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 3: data\batches\batch_3.csv (500 rows)
+[2026-10-14 06:17:02] [INFO] [ingestion:ingest_data:149] - Data Ingestion stage completed successfully.
+[2026-10-14 06:17:02] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'validate_data'...
+[2026-10-14 06:17:02] [INFO] [data_validation:validate_data_gate:151] - Running Data Gate Validation on: data\processed\train.csv
+[2026-10-14 06:17:02] [INFO] [data_validation:validate_data_gate:156] - DATA GATE PASSED: 2800 records verified successfully.
+[2026-10-14 06:17:02] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'build_features'...
+[2026-10-14 06:17:02] [INFO] [preprocessor:fit_and_save_preprocessor:126] - Fitting preprocessor on 2800 samples across 9 features...
+[2026-10-14 06:17:02] [INFO] [preprocessor:fit_and_save_preprocessor:133] - Fitted preprocessor successfully saved to: models\preprocessor.joblib (Output shape: (2800, 16))
+[2026-10-14 06:17:03] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-14 06:17:03] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.3500 (Required >= 0.8)
+[2026-10-14 06:17:03] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 22.00 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-14 06:17:03] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  17.00 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-14 06:17:03] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 45.00% (Required <= 20.00%)
+[2026-10-14 06:17:03] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v4) metrics: RMSE=7.74, R²=0.8741
+[2026-10-14 06:17:03] [ERROR] [model_gate:evaluate_model_gate:108] - MODEL GATE FAILED: 5 threshold violation(s):
+[2026-10-14 06:17:03] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate R² (0.3500) is below minimum quality threshold 0.8000
+[2026-10-14 06:17:03] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate RMSE (22.00 Lakhs) exceeds maximum allowed threshold 12.00 Lakhs
+[2026-10-14 06:17:03] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAE (17.00 Lakhs) exceeds maximum allowed threshold 8.50 Lakhs
+[2026-10-14 06:17:03] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAPE (45.00%) exceeds maximum allowed threshold 20.00%
+[2026-10-14 06:17:03] [ERROR] [model_gate:evaluate_model_gate:110] -   - Challenger RMSE (22.00) failed to beat Champion v4 RMSE (7.74)
+[2026-10-14 06:17:03] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 06:17:03] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 06:17:03] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 06:17:03] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 06:17:03] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 06:17:03] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 06:17:03] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 06:17:03] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 06:17:03] [INFO] [drift_monitor:run_monitoring_pipeline:243] - Starting Operational Batch Monitoring & Drift Pipeline...
+[2026-10-14 06:17:03] [INFO] [drift_monitor:run_monitoring_pipeline:259] - Processing incoming batches: [np.int64(1), np.int64(2), np.int64(3)]
+[2026-10-14 06:17:04] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 1 Evaluation: [HEALTHY] - Action: NO_ACTION_REQUIRED: Distributions and model accuracy match historical baseline.
+[2026-10-14 06:17:04] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 2 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 06:17:04] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 19.2% exceeds threshold 15.0%
+[2026-10-14 06:17:04] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 3 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 06:17:04] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 111.3% exceeds threshold 15.0%
+[2026-10-14 06:17:04] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Critical data drift on 'Area_sqft' (PSI = 0.336 >= 0.25)
+[2026-10-14 06:17:04] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bedrooms' (PSI = 0.197)
+[2026-10-14 06:17:04] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bathrooms' (PSI = 0.110)
+[2026-10-14 06:17:04] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'City_Zone' (PSI = 0.206)
+[2026-10-14 06:17:04] [INFO] [drift_monitor:run_monitoring_pipeline:291] - All monitoring reports successfully saved to: C:\Users\JAYDEN\Downloads\mlops\reports\drift
+[2026-10-14 20:05:57] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'ingest'...
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:39] - Starting Data Ingestion stage...
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:63] - Loaded raw training dataset: data\raw\capstone_house_prices_train.csv (SHA-256: 8696565fd2a8...)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:64] - Loaded raw incoming batches: data\raw\capstone_incoming_batches.csv (SHA-256: 94c1c5aeac37...)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:69] - Raw train shape: (4000, 11), Raw batches shape: (1500, 12)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:113] - Saved Train set: data\processed\train.csv (2800 rows)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:114] - Saved Val set:   data\processed\val.csv (600 rows)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:115] - Saved Test set:  data\processed\test.csv (600 rows)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 1: data\batches\batch_1.csv (500 rows)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 2: data\batches\batch_2.csv (500 rows)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 3: data\batches\batch_3.csv (500 rows)
+[2026-10-14 20:05:57] [INFO] [ingestion:ingest_data:149] - Data Ingestion stage completed successfully.
+[2026-10-14 20:05:57] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'validate_data'...
+[2026-10-14 20:05:57] [INFO] [data_validation:validate_data_gate:151] - Running Data Gate Validation on: data\processed\train.csv
+[2026-10-14 20:05:57] [INFO] [data_validation:validate_data_gate:156] - DATA GATE PASSED: 2800 records verified successfully.
+[2026-10-14 20:05:57] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'build_features'...
+[2026-10-14 20:05:57] [INFO] [preprocessor:fit_and_save_preprocessor:126] - Fitting preprocessor on 2800 samples across 9 features...
+[2026-10-14 20:05:58] [INFO] [preprocessor:fit_and_save_preprocessor:133] - Fitted preprocessor successfully saved to: models\preprocessor.joblib (Output shape: (2800, 16))
+[2026-10-14 20:05:59] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-14 20:05:59] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.3500 (Required >= 0.8)
+[2026-10-14 20:05:59] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 22.00 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-14 20:05:59] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  17.00 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-14 20:05:59] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 45.00% (Required <= 20.00%)
+[2026-10-14 20:05:59] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v4) metrics: RMSE=7.74, R²=0.8741
+[2026-10-14 20:05:59] [ERROR] [model_gate:evaluate_model_gate:108] - MODEL GATE FAILED: 5 threshold violation(s):
+[2026-10-14 20:05:59] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate R² (0.3500) is below minimum quality threshold 0.8000
+[2026-10-14 20:05:59] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate RMSE (22.00 Lakhs) exceeds maximum allowed threshold 12.00 Lakhs
+[2026-10-14 20:05:59] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAE (17.00 Lakhs) exceeds maximum allowed threshold 8.50 Lakhs
+[2026-10-14 20:05:59] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAPE (45.00%) exceeds maximum allowed threshold 20.00%
+[2026-10-14 20:05:59] [ERROR] [model_gate:evaluate_model_gate:110] -   - Challenger RMSE (22.00) failed to beat Champion v4 RMSE (7.74)
+[2026-10-14 20:05:59] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 20:05:59] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 20:05:59] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 20:05:59] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 20:05:59] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 20:05:59] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 20:05:59] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 20:05:59] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 20:05:59] [INFO] [drift_monitor:run_monitoring_pipeline:243] - Starting Operational Batch Monitoring & Drift Pipeline...
+[2026-10-14 20:05:59] [INFO] [drift_monitor:run_monitoring_pipeline:259] - Processing incoming batches: [np.int64(1), np.int64(2), np.int64(3)]
+[2026-10-14 20:05:59] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 1 Evaluation: [HEALTHY] - Action: NO_ACTION_REQUIRED: Distributions and model accuracy match historical baseline.
+[2026-10-14 20:05:59] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 2 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 20:05:59] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 19.2% exceeds threshold 15.0%
+[2026-10-14 20:06:00] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 3 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 20:06:00] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 111.3% exceeds threshold 15.0%
+[2026-10-14 20:06:00] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Critical data drift on 'Area_sqft' (PSI = 0.336 >= 0.25)
+[2026-10-14 20:06:00] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bedrooms' (PSI = 0.197)
+[2026-10-14 20:06:00] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bathrooms' (PSI = 0.110)
+[2026-10-14 20:06:00] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'City_Zone' (PSI = 0.206)
+[2026-10-14 20:06:00] [INFO] [drift_monitor:run_monitoring_pipeline:291] - All monitoring reports successfully saved to: C:\Users\JAYDEN\Downloads\mlops\reports\drift
+[2026-10-14 20:08:31] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'ingest'...
+[2026-10-14 20:08:31] [INFO] [ingestion:ingest_data:39] - Starting Data Ingestion stage...
+[2026-10-14 20:08:31] [INFO] [ingestion:ingest_data:63] - Loaded raw training dataset: data\raw\capstone_house_prices_train.csv (SHA-256: 8696565fd2a8...)
+[2026-10-14 20:08:31] [INFO] [ingestion:ingest_data:64] - Loaded raw incoming batches: data\raw\capstone_incoming_batches.csv (SHA-256: 94c1c5aeac37...)
+[2026-10-14 20:08:31] [INFO] [ingestion:ingest_data:69] - Raw train shape: (4000, 11), Raw batches shape: (1500, 12)
+[2026-10-14 20:08:32] [INFO] [ingestion:ingest_data:113] - Saved Train set: data\processed\train.csv (2800 rows)
+[2026-10-14 20:08:32] [INFO] [ingestion:ingest_data:114] - Saved Val set:   data\processed\val.csv (600 rows)
+[2026-10-14 20:08:32] [INFO] [ingestion:ingest_data:115] - Saved Test set:  data\processed\test.csv (600 rows)
+[2026-10-14 20:08:32] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 1: data\batches\batch_1.csv (500 rows)
+[2026-10-14 20:08:32] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 2: data\batches\batch_2.csv (500 rows)
+[2026-10-14 20:08:32] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 3: data\batches\batch_3.csv (500 rows)
+[2026-10-14 20:08:32] [INFO] [ingestion:ingest_data:149] - Data Ingestion stage completed successfully.
+[2026-10-14 20:08:32] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'validate_data'...
+[2026-10-14 20:08:32] [INFO] [data_validation:validate_data_gate:151] - Running Data Gate Validation on: data\processed\train.csv
+[2026-10-14 20:08:32] [INFO] [data_validation:validate_data_gate:156] - DATA GATE PASSED: 2800 records verified successfully.
+[2026-10-14 20:08:32] [INFO] [run_stage:execute_stage:22] - Executing standalone stage: 'build_features'...
+[2026-10-14 20:08:32] [INFO] [preprocessor:fit_and_save_preprocessor:126] - Fitting preprocessor on 2800 samples across 9 features...
+[2026-10-14 20:08:32] [INFO] [preprocessor:fit_and_save_preprocessor:133] - Fitted preprocessor successfully saved to: models\preprocessor.joblib (Output shape: (2800, 16))
+[2026-10-14 20:08:33] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-14 20:08:33] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.3500 (Required >= 0.8)
+[2026-10-14 20:08:33] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 22.00 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-14 20:08:33] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  17.00 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-14 20:08:33] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 45.00% (Required <= 20.00%)
+[2026-10-14 20:08:33] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v4) metrics: RMSE=7.74, R²=0.8741
+[2026-10-14 20:08:33] [ERROR] [model_gate:evaluate_model_gate:108] - MODEL GATE FAILED: 5 threshold violation(s):
+[2026-10-14 20:08:33] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate R² (0.3500) is below minimum quality threshold 0.8000
+[2026-10-14 20:08:33] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate RMSE (22.00 Lakhs) exceeds maximum allowed threshold 12.00 Lakhs
+[2026-10-14 20:08:33] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAE (17.00 Lakhs) exceeds maximum allowed threshold 8.50 Lakhs
+[2026-10-14 20:08:33] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAPE (45.00%) exceeds maximum allowed threshold 20.00%
+[2026-10-14 20:08:33] [ERROR] [model_gate:evaluate_model_gate:110] -   - Challenger RMSE (22.00) failed to beat Champion v4 RMSE (7.74)
+[2026-10-14 20:08:33] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 20:08:33] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 20:08:33] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 20:08:33] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 20:08:33] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-14 20:08:33] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-14 20:08:33] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
+[2026-10-14 20:08:34] [INFO] [serving_api:lifespan:95] - Serving API shutting down.
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:243] - Starting Operational Batch Monitoring & Drift Pipeline...
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:259] - Processing incoming batches: [np.int64(1), np.int64(2), np.int64(3)]
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 1 Evaluation: [HEALTHY] - Action: NO_ACTION_REQUIRED: Distributions and model accuracy match historical baseline.
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 2 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 20:08:34] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 19.2% exceeds threshold 15.0%
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 3 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-14 20:08:34] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 111.3% exceeds threshold 15.0%
+[2026-10-14 20:08:34] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Critical data drift on 'Area_sqft' (PSI = 0.336 >= 0.25)
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bedrooms' (PSI = 0.197)
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bathrooms' (PSI = 0.110)
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'City_Zone' (PSI = 0.206)
+[2026-10-14 20:08:34] [INFO] [drift_monitor:run_monitoring_pipeline:291] - All monitoring reports successfully saved to: C:\Users\JAYDEN\Downloads\mlops\reports\drift
+[2026-10-14 20:10:07] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-14 20:10:07] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.4215 (Required >= 0.8)
+[2026-10-14 20:10:07] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 18.45 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-14 20:10:07] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  14.10 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-14 20:10:07] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 32.50% (Required <= 20.00%)
+[2026-10-14 20:10:07] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v4) metrics: RMSE=7.74, R²=0.8741
+[2026-10-14 20:10:07] [ERROR] [model_gate:evaluate_model_gate:108] - MODEL GATE FAILED: 5 threshold violation(s):
+[2026-10-14 20:10:07] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate R² (0.4215) is below minimum quality threshold 0.8000
+[2026-10-14 20:10:07] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate RMSE (18.45 Lakhs) exceeds maximum allowed threshold 12.00 Lakhs
+[2026-10-14 20:10:07] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAE (14.10 Lakhs) exceeds maximum allowed threshold 8.50 Lakhs
+[2026-10-14 20:10:07] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAPE (32.50%) exceeds maximum allowed threshold 20.00%
+[2026-10-14 20:10:07] [ERROR] [model_gate:evaluate_model_gate:110] -   - Challenger RMSE (18.45) failed to beat Champion v4 RMSE (7.74)
+[2026-10-21 19:17:57] [INFO] [orchestrator:run_full_pipeline:69] - ================================================================================
+[2026-10-21 19:17:57] [INFO] [orchestrator:run_full_pipeline:70] - STARTING AUTOMATED END-TO-END PIPELINE: property-price-predictor v1.0.0
+[2026-10-21 19:17:57] [INFO] [orchestrator:run_full_pipeline:71] - ================================================================================
+[2026-10-21 19:17:57] [INFO] [orchestrator:run_full_pipeline:76] - [STAGE 1/7] Ingesting official datasets and generating splits...
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:39] - Starting Data Ingestion stage...
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:63] - Loaded raw training dataset: data\raw\capstone_house_prices_train.csv (SHA-256: 8696565fd2a8...)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:64] - Loaded raw incoming batches: data\raw\capstone_incoming_batches.csv (SHA-256: 94c1c5aeac37...)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:69] - Raw train shape: (4000, 11), Raw batches shape: (1500, 12)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:113] - Saved Train set: data\processed\train.csv (2800 rows)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:114] - Saved Val set:   data\processed\val.csv (600 rows)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:115] - Saved Test set:  data\processed\test.csv (600 rows)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 1: data\batches\batch_1.csv (500 rows)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 2: data\batches\batch_2.csv (500 rows)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:131] - Saved Operational Batch 3: data\batches\batch_3.csv (500 rows)
+[2026-10-21 19:17:57] [INFO] [ingestion:ingest_data:149] - Data Ingestion stage completed successfully.
+[2026-10-21 19:17:57] [INFO] [orchestrator:run_full_pipeline:88] - [STAGE 2/7] Running Data Validation Gate on training data...
+[2026-10-21 19:17:57] [INFO] [data_validation:validate_data_gate:151] - Running Data Gate Validation on: data\processed\train.csv
+[2026-10-21 19:17:57] [INFO] [data_validation:validate_data_gate:156] - DATA GATE PASSED: 2800 records verified successfully.
+[2026-10-21 19:17:57] [INFO] [orchestrator:run_full_pipeline:101] - [STAGE 3/7] Building features and fitting preprocessor...
+[2026-10-21 19:17:57] [INFO] [preprocessor:fit_and_save_preprocessor:126] - Fitting preprocessor on 2800 samples across 9 features...
+[2026-10-21 19:17:57] [INFO] [preprocessor:fit_and_save_preprocessor:133] - Fitted preprocessor successfully saved to: models\preprocessor.joblib (Output shape: (2800, 16))
+[2026-10-21 19:17:57] [INFO] [orchestrator:run_full_pipeline:115] - [STAGE 4/7] Multi-model exploration, CV, and hyperparameter evaluation...
+[2026-10-21 19:17:58] [INFO] [train:train_and_evaluate_models:71] - Starting Model Training & Exploration stage...
+[2026-10-21 19:17:58] [INFO] [preprocessor:fit_and_save_preprocessor:126] - Fitting preprocessor on 2800 samples across 9 features...
+[2026-10-21 19:17:58] [INFO] [preprocessor:fit_and_save_preprocessor:133] - Fitted preprocessor successfully saved to: models\preprocessor.joblib (Output shape: (2800, 16))
+[2026-10-21 19:17:58] [INFO] [train:train_and_evaluate_models:110] - --- Training & Cross-Validating: ridge ---
+[2026-10-21 19:18:01] [INFO] [train:train_and_evaluate_models:124] -   CV RMSE:   7.52 ± 0.18
+[2026-10-21 19:18:01] [INFO] [train:train_and_evaluate_models:125] -   Val RMSE:  7.52 Lakhs
+[2026-10-21 19:18:01] [INFO] [train:train_and_evaluate_models:126] -   Val R²:    0.8864
+[2026-10-21 19:18:01] [INFO] [train:train_and_evaluate_models:127] -   Val MAE:   5.50 Lakhs
+[2026-10-21 19:18:02] [INFO] [train:train_and_evaluate_models:110] - --- Training & Cross-Validating: random_forest ---
+[2026-10-21 19:18:06] [INFO] [train:train_and_evaluate_models:124] -   CV RMSE:   10.55 ± 0.20
+[2026-10-21 19:18:06] [INFO] [train:train_and_evaluate_models:125] -   Val RMSE:  10.16 Lakhs
+[2026-10-21 19:18:06] [INFO] [train:train_and_evaluate_models:126] -   Val R²:    0.7926
+[2026-10-21 19:18:06] [INFO] [train:train_and_evaluate_models:127] -   Val MAE:   7.85 Lakhs
+[2026-10-21 19:18:06] [INFO] [train:train_and_evaluate_models:110] - --- Training & Cross-Validating: gradient_boosting ---
+[2026-10-21 19:18:11] [INFO] [train:train_and_evaluate_models:124] -   CV RMSE:   8.26 ± 0.26
+[2026-10-21 19:18:11] [INFO] [train:train_and_evaluate_models:125] -   Val RMSE:  8.07 Lakhs
+[2026-10-21 19:18:11] [INFO] [train:train_and_evaluate_models:126] -   Val R²:    0.8692
+[2026-10-21 19:18:11] [INFO] [train:train_and_evaluate_models:127] -   Val MAE:   6.05 Lakhs
+[2026-10-21 19:18:11] [INFO] [train:train_and_evaluate_models:110] - --- Training & Cross-Validating: lightgbm ---
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:124] -   CV RMSE:   8.04 ± 0.31
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:125] -   Val RMSE:  7.95 Lakhs
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:126] -   Val R²:    0.8730
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:127] -   Val MAE:   5.96 Lakhs
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:168] - === Optimal Model Selected: ridge (Val RMSE: 7.52 Lakhs) ===
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:179] - Held-Out Test Performance for ridge:
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:180] -   Test RMSE: 7.74 Lakhs
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:181] -   Test R²:   0.8741
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:182] -   Test MAE:  5.90 Lakhs
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:183] -   Founder:   Typical price error is ±5.90 Lakhs (Median error: ±4.85 Lakhs). 57.3% of properties are predicted within ±10% of asking price, and 51.2% are within ±5 Lakhs.
+[2026-10-21 19:18:18] [INFO] [train:train_and_evaluate_models:200] - Saved Candidate Model to: models\candidate_model.joblib
+[2026-10-21 19:18:18] [INFO] [orchestrator:run_full_pipeline:132] - [STAGE 5/7] Evaluating Candidate Model through Model Gate...
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.8864 (Required >= 0.8)
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 7.52 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  5.50 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 9.77% (Required <= 20.00%)
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v5) metrics: RMSE=7.74, R²=0.8741
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:106] - MODEL GATE PASSED: Candidate meets all quality and competitive thresholds.
+[2026-10-21 19:18:18] [INFO] [orchestrator:run_full_pipeline:147] - [STAGE 6/7] Promoting candidate to Production in Model Registry...
+[2026-10-21 19:18:18] [INFO] [deploy:register_and_deploy_model:47] - Starting Model Registration & Deployment stage...
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.8864 (Required >= 0.8)
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 7.52 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  5.50 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 9.77% (Required <= 20.00%)
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v5) metrics: RMSE=7.74, R²=0.8741
+[2026-10-21 19:18:18] [INFO] [model_gate:evaluate_model_gate:106] - MODEL GATE PASSED: Candidate meets all quality and competitive thresholds.
+[2026-10-21 19:18:27] [INFO] [mlflow_manager:register_and_promote_model:78] - Registering model from runs:/e1f4074d7b6e48ffb31c093b96da1739/model into registry as 'HousePricePredictor'...
+[2026-10-21 19:18:27] [INFO] [mlflow_manager:register_and_promote_model:86] - Registered model 'HousePricePredictor' Version 6
+[2026-10-21 19:18:27] [INFO] [mlflow_manager:register_and_promote_model:96] - Model 'HousePricePredictor' Version 6 transitioned to stage: Production
+[2026-10-21 19:18:27] [INFO] [deploy:register_and_deploy_model:138] - MODEL DEPLOYMENT SUCCESSFUL. Active serving model is now Version 6.
+[2026-10-21 19:18:27] [INFO] [orchestrator:run_full_pipeline:159] - [STAGE 7/7] Ingesting operational batches and running drift monitoring...
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:243] - Starting Operational Batch Monitoring & Drift Pipeline...
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:259] - Processing incoming batches: [np.int64(1), np.int64(2), np.int64(3)]
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 1 Evaluation: [HEALTHY] - Action: NO_ACTION_REQUIRED: Distributions and model accuracy match historical baseline.
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 2 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-21 19:18:27] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 19.2% exceeds threshold 15.0%
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:272] - Batch 3 Evaluation: [CRITICAL] - Action: TRIGGER_AUTOMATED_RETRAINING_PIPELINE: Substantial concept/covariate drift detected.
+[2026-10-21 19:18:27] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Performance RMSE degradation 111.3% exceeds threshold 15.0%
+[2026-10-21 19:18:27] [WARNING] [drift_monitor:run_monitoring_pipeline:275] -   [!] CRITICAL: Critical data drift on 'Area_sqft' (PSI = 0.336 >= 0.25)
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bedrooms' (PSI = 0.197)
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'Bathrooms' (PSI = 0.110)
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:278] -   [*] WARNING: Moderate data drift warning on 'City_Zone' (PSI = 0.206)
+[2026-10-21 19:18:27] [INFO] [drift_monitor:run_monitoring_pipeline:291] - All monitoring reports successfully saved to: C:\Users\JAYDEN\Downloads\mlops\reports\drift
+[2026-10-21 19:18:27] [INFO] [orchestrator:run_full_pipeline:169] - ================================================================================
+[2026-10-21 19:18:27] [INFO] [orchestrator:run_full_pipeline:170] - END-TO-END PIPELINE COMPLETED SUCCESSFULLY IN 30.417s
+[2026-10-21 19:18:27] [INFO] [orchestrator:run_full_pipeline:171] - ================================================================================
+[2026-10-21 19:25:20] [INFO] [model_gate:evaluate_model_gate:56] - Evaluating Candidate Model against Absolute Quality Thresholds:
+[2026-10-21 19:25:20] [INFO] [model_gate:evaluate_model_gate:57] -   Candidate R²:   0.4215 (Required >= 0.8)
+[2026-10-21 19:25:20] [INFO] [model_gate:evaluate_model_gate:58] -   Candidate RMSE: 18.45 Lakhs (Required <= 12.0 Lakhs)
+[2026-10-21 19:25:20] [INFO] [model_gate:evaluate_model_gate:59] -   Candidate MAE:  14.10 Lakhs (Required <= 8.5 Lakhs)
+[2026-10-21 19:25:20] [INFO] [model_gate:evaluate_model_gate:60] -   Candidate MAPE: 32.50% (Required <= 20.00%)
+[2026-10-21 19:25:20] [INFO] [model_gate:evaluate_model_gate:91] - Champion (v6) metrics: RMSE=7.74, R²=0.8741
+[2026-10-21 19:25:20] [ERROR] [model_gate:evaluate_model_gate:108] - MODEL GATE FAILED: 5 threshold violation(s):
+[2026-10-21 19:25:20] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate R² (0.4215) is below minimum quality threshold 0.8000
+[2026-10-21 19:25:20] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate RMSE (18.45 Lakhs) exceeds maximum allowed threshold 12.00 Lakhs
+[2026-10-21 19:25:20] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAE (14.10 Lakhs) exceeds maximum allowed threshold 8.50 Lakhs
+[2026-10-21 19:25:20] [ERROR] [model_gate:evaluate_model_gate:110] -   - Candidate MAPE (32.50%) exceeds maximum allowed threshold 20.00%
+[2026-10-21 19:25:20] [ERROR] [model_gate:evaluate_model_gate:110] -   - Challenger RMSE (18.45) failed to beat Champion v6 RMSE (7.74)
+[2026-10-21 19:25:32] [INFO] [serving_api:lifespan:65] - Loaded active model from: models\active_model.joblib
+[2026-10-21 19:25:32] [INFO] [serving_api:lifespan:66] - Loaded active preprocessor from: models\preprocessor.joblib
+[2026-10-21 19:25:32] [INFO] [serving_api:lifespan:93] - Serving API ready to accept inference requests.
