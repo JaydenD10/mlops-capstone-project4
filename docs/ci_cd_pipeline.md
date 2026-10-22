@@ -83,3 +83,5 @@ When inspecting a running container in production:
 docker inspect mlops-house-price-api | grep IMAGE
 ```
 The operator immediately discovers the exact commit that produced the running code and model artifact.
+
+<!-- Automated CI Check Verification Note -->
