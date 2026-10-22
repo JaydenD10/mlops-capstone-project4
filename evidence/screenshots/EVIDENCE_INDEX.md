@@ -20,9 +20,9 @@ This document catalogues all 24 required screenshot items for the Project 4 Caps
 | 10 | Failure Gate 1: Previous Model Serving | `05_failure_gates/10_bad_data_previous_model.png` | **PASS** | Live API `/health` and `POST /predict` query confirming Champion Model v6 continues serving uninterrupted post-data failure. |
 | 11 | Failure Gate 2: Model Quality Failure | `05_failure_gates/11_model_quality_failure.png` | **PASS** | Scenario B execution showing Model Gate rejection with 5 detected threshold violations ($R^2 = 0.4215 < 0.80$, $\text{RMSE} = 18.45 > 12.0$). |
 | 12 | Failure Gate 2: Previous Model Preserved | `05_failure_gates/12_model_quality_previous_model.png` | **PASS** | Disk metadata audit (`models/active_model_metadata.json`) and live `/health` confirming Production Model v6 remains untouched and active. |
-| 13 | Passing CI Workflow Run | `06_cicd/13_passing_ci.png` | **MISSING** | **Reason:** No remote GitHub repository is linked (`git remote -v` is empty). GitHub Actions workflow runs have not been executed on GitHub. |
-| 14 | Failing CI Workflow Run | `06_cicd/14_failing_ci.png` | **MISSING** | **Reason:** No remote GitHub repository is linked. Pull request checks on GitHub Actions have not been executed on GitHub. |
-| 15 | Successful Release / Build Run | `06_cicd/15_successful_release.png` | **MISSING** | **Reason:** No remote GitHub repository is linked. CD release workflows on GitHub Actions have not been executed on GitHub. |
+| 13 | Passing CI Workflow Run | `06_cicd/13_passing_ci.png` | **PASS** | Pull Request #1 (`feature/passing-ci-validation` → `master`) triggered GitHub Actions CI pipeline. All checks passed (`Lint, Validate Config & Run Test Suite` successful in 1m 29s). |
+| 14 | Failing CI Workflow Run | `06_cicd/14_failing_ci.png` | **PASS** | Pull Request #2 (`test/failing-ci-gate` → `master`) demonstrated automated quality gating. Pytest suite rejected defective assertion in `tests/test_ci_failure.py`, blocking merge with verified red CI failure status. |
+| 15 | Successful Release / Build Run | `06_cicd/15_successful_release.png` | **PASS** | GitHub Release `v1.0.0` ("v1.0.0: Production Pipeline & Model Release") successfully published on repository `JaydenD10/mlops-capstone-project4` with tag `v1.0.0` and complete release notes. |
 | 16 | Docker Image Build | `07_deployment/16_docker_image.png` | **PASS** | `docker build -t house-price-api:latest .` completed successfully. `docker images` confirms `house-price-api:latest` (ID: `8cff6d6ff400`, 1.45 GB, Python 3.11-slim multi-stage build). Docker Desktop v29.9.2 / Engine v29.9.2. |
 | 17 | Running Container | `07_deployment/17_running_container.png` | **PASS** | Container `house-price-container` launched with `docker run -d -p 8000:8000`. `docker ps` shows `Up 11 seconds (healthy)`, port `0.0.0.0:8000→8000/tcp`. `GET /health` → `{"status":"healthy", "model_loaded":true, "model_version":"6"}`. `POST /predict` → `predicted_price_lakhs: 103.26`, latency 32.76 ms. |
 | 18 | API Prediction Response | `07_deployment/18_api_prediction.png` | **PASS** | Live `POST /predict` call returning HTTP 200 with property price estimation (₹116.74 Lakhs), confidence bands, and latency metrics. |
@@ -30,59 +30,36 @@ This document catalogues all 24 required screenshot items for the Project 4 Caps
 | 20 | Data Drift Across Batches 1, 2, 3 | `08_monitoring/20_data_drift.png` | **PASS** | Streamlit Feature Drift Analysis (PSI Table) tracking all 9 features across Batches 1, 2, 3 with critical drift flagged on `Area_sqft` ($\text{PSI} = 0.3357$). |
 | 21 | Performance Drift Tracking | `08_monitoring/21_performance_drift.png` | **PASS** | Streamlit Model Health Overview showing Batch 1 (Healthy), Batch 2 (+19.2% RMSE degradation), Batch 3 (+111.3% RMSE degradation), and error charts. |
 | 22 | Live Alerts & Mitigation Runbook | `08_monitoring/22_alerts.png` | **PASS** | Streamlit Alert & Mitigation Center showing Critical Alert for Batch 3, Critical Alert for Batch 2, Healthy status for Batch 1, and 6-step runbook playbook. |
-| 23 | GitHub Repository Structure | `09_git/23_repository.png` | **MISSING** | **Reason:** No remote GitHub repository is configured (`git remote` is empty; local project has not been published or pushed to a remote GitHub URL). |
+| 23 | GitHub Repository Structure | `09_git/23_repository.png` | **PASS** | GitHub Repository `https://github.com/JaydenD10/mlops-capstone-project4` verified live showing complete project structure (`.github/workflows`, `config`, `data`, `docs`, `evidence`, `models`, `scripts`, `src`, `tests`, `Dockerfile`, `README.md`). |
 | 24 | Git Commit History & Collaboration | `09_git/24_commit_history.png` | **PASS** | Git commit history showing commits from both team members (`MLOps Capstone` and `Presenter B (Monitoring & Serving)`). |
 
 ---
 
-## Detailed Explanation of Missing Items
+## Detailed Status of All Submissions
 
-### 1. Items 13, 14, 15 (GitHub Actions / CI-CD)
-- **What is missing:** Web screenshot evidence of GitHub Actions workflow runs (passing PR test run, failing PR test run, and successful post-merge release build).
-- **Exact technical cause:** Running `git remote -v` in the repository outputs no remote URL. The repository exists purely on the local filesystem. Without a live repository on GitHub, GitHub Actions cannot execute workflows or generate run history pages.
-- **Workflow files present in repo:** The repository contains complete workflow specifications in `.github/workflows/ci.yml` and `.github/workflows/cd.yml`.
+### 1. Items 13, 14, 15 (GitHub Actions / CI-CD) — ✅ RESOLVED & VERIFIED
+- **Item 13:** Pull Request #1 opened from branch `feature/passing-ci-validation`. GitHub Actions executed the CI pipeline (`Lint, Validate Config & Run Test Suite`) and completed with 100% pass across all linting, schema validation, 21 unit tests, and pipeline stage smoke tests.
+- **Item 14:** Pull Request #2 opened from branch `test/failing-ci-gate`. GitHub Actions CI quality gate rejected the deliberate test assertion failure, proving automated gating prevents defective code merges.
+- **Item 15:** Tag `v1.0.0` pushed and GitHub Release `v1.0.0` published with release notes summarizing the production pipeline, model metrics, Docker container, and monitoring telemetry.
 
-### 2. Items 16, 17 (Docker / Container Deployment) — ✅ RESOLVED
-- **Resolved:** Docker Desktop 4.96.2 (Engine v29.9.2) was located at `%LOCALAPPDATA%\Programs\DockerDesktop\resources\bin\docker.exe` and added to PATH.
-- `docker build -t house-price-api:latest .` completed successfully (multi-stage Python 3.11-slim build, 1.45 GB image, ID `8cff6d6ff400`).
+### 2. Items 16, 17 (Docker / Container Deployment) — ✅ RESOLVED & VERIFIED
+- Docker Desktop 4.96.2 (Engine v29.9.2) operational.
+- `docker build -t house-price-api:latest .` completed successfully (image ID `8cff6d6ff400`, 1.45 GB).
 - `docker run -d -p 8000:8000 --name house-price-container house-price-api:latest` launched the container.
 - `docker ps` confirmed status `Up (healthy)` with port `0.0.0.0:8000→8000/tcp`.
 - Live API verification: `GET /health` → `{status: healthy, model_loaded: true, model_version: 6}`.
 - Live prediction: `POST /predict` → `predicted_price_lakhs: 103.26 Lakhs`, `latency_ms: 32.76`.
 
-### 3. Item 23 (GitHub Repository Structure)
-- **What is missing:** Web screenshot of the GitHub repository homepage showing file tree, README, and commit badges.
-- **Exact technical cause:** No GitHub remote is configured (`git config --get remote.origin.url` is empty). The repository has not yet been pushed to GitHub.
+### 3. Item 23 (GitHub Repository Structure) — ✅ RESOLVED & VERIFIED
+- Remote repository created at `https://github.com/JaydenD10/mlops-capstone-project4`.
+- All branches (`master`, `main`), workflows (`.github/workflows/`), documentation (`docs/`), source code (`src/`), tests (`tests/`), Dockerfile, and evidence artifacts successfully published.
 
 ---
 
 ## Submission Checklist Summary
 
-1. **Total screenshots successfully captured:** **20 / 24**
-2. **Missing screenshots:** **4 / 24** (Items 13, 14, 15, 23)
-3. **Project functionality preventing collection:**
-   - ~~Absence of Docker Desktop~~ — **RESOLVED**: Docker Desktop 4.96.2 confirmed installed and operational. Items 16 and 17 are now PASS.
-   - Absence of a configured remote GitHub repository prevents executing GitHub Actions workflows and viewing GitHub web pages.
-4. **Commands you need to run manually (to obtain the 4 remaining missing screenshots):**
-   - **For GitHub (Screenshots 13, 14, 15, 23):**
-     1. Create a GitHub repository (e.g., `https://github.com/<your-username>/mlops-capstone-project4`).
-     2. Add the remote and push:
-        ```bash
-        git remote add origin https://github.com/<your-username>/mlops-capstone-project4.git
-        git branch -M main
-        git push -u origin main
-        ```
-     3. Open a Pull Request from a feature branch to trigger the CI workflow (`.github/workflows/ci.yml`).
-     4. Create a branch with an intentional lint/test error to trigger a failing PR workflow for Screenshot 14.
-     5. Merge the passing PR to trigger the CD release workflow (`.github/workflows/cd.yml`) for Screenshot 15.
-   - **For Docker (Screenshots 16, 17):** ✅ **COMPLETED on 2026-10-22**
-     - `docker build -t house-price-api:latest .` — **DONE** (image ID `8cff6d6ff400`, 1.45 GB)
-     - `docker run -d -p 8000:8000 --name house-price-container house-price-api:latest` — **DONE** (container `5860b54f9d7b`, status `healthy`)
-     - `GET /health` → `{status: healthy, model_version: 6}` — **VERIFIED**
-     - `POST /predict` → `predicted_price_lakhs: 103.26`, latency 32.76 ms — **VERIFIED**
-5. **Browser pages you need to open manually:**
-   - GitHub Actions tab: `https://github.com/<your-username>/mlops-capstone-project4/actions`
-   - GitHub Repository home: `https://github.com/<your-username>/mlops-capstone-project4`
-6. **Coverage of Project Brief Requirements:**
-   - **Core MLOps Pipeline & Governance:** **100% COVERED** (Architecture, Configuration, DAG Orchestration, Pipeline Execution, Stage Logs, MLflow Experiment Tracking, MLflow Model Registry, Provenance Lineage, Data Gate Safe Failure, Model Gate Safe Failure, Real-time API Inference, Operational Telemetry, Feature Drift Analysis across Batches 1–3, Performance Drift Tracking, Alert Policies & Runbook, Git Commit Multi-Author Collaboration).
-   - **External Cloud / Virtualization Services:** **Requires manual cloud/host setup** (Remote GitHub hosting & Docker Desktop engine).
+1. **Total screenshots successfully captured:** **24 / 24** (**100% COMPLETE**)
+2. **Missing screenshots:** **0 / 24**
+3. **Project verification status:** **ALL 24 REQUIREMENTS VERIFIED AND EMPIRICALLY DEMONSTRATED**
+4. **Coverage of Project Brief Requirements:** **100% FULL-STACK COMPLIANT** (All 8 Lifecycle Stages, Data & Model Gates, Lineage Traceability, Docker Containerization, GitHub Actions CI/CD, Releases, Operational Drift Telemetry, and Runbooks).
+
